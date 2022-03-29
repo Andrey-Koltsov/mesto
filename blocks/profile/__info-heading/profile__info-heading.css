@@ -1,5 +1,5 @@
 .profile__info-heading {
     display: flex;
-    align-items: flex-end;
     gap: 18px;
+    align-items: baseline;
 }
