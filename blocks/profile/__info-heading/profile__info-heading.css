@@ -3,3 +3,9 @@
     gap: 18px;
     align-items: baseline;
 }
+
+@media screen and (max-width: 600px) {
+    .profile__info-heading {
+        max-width: 282px;
+    }
+}
