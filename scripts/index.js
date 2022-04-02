@@ -3,9 +3,9 @@ const profileName = document.querySelector('.profile__name'),
       profileBtnEdit = document.querySelector('.profile__btn-edit'),
       popup = document.querySelector('.popup'),
       popupBtnClose = popup.querySelector('.popup__btn-close'),
-      form = popup.querySelector('.form'),
-      formInputName = form.querySelector('.form__input_name'),
-      formInputJob = form.querySelector('.form__input_description');
+      form = popup.querySelector('.popup__form'),
+      formInputName = form.querySelector('.popup__input_form_name'),
+      formInputJob = form.querySelector('.popup__input_form_job');
 
 function togglePopup() {
     popup.classList.toggle('popup_opened');

@@ -33,9 +33,7 @@
 @import url("../blocks/popup/_opened/popup_opened.css");
 @import url("../blocks/popup/__container/popup__container.css");
 @import url("../blocks/popup/__btn-close/popup__btn-close.css");
-
-@import url("../blocks/form/form.css");
-@import url("../blocks/form/__title/form__title.css");
-@import url("../blocks/form/__input/form__input.css");
-@import url("../blocks/form/__btn-save/form__btn-save.css");
-@import url("../blocks/form/__input-container/form__input-container.css");
+@import url("../blocks/popup/__title/popup__title.css");
+@import url("../blocks/popup/__input-container/popup__input-container.css");
+@import url("../blocks/popup/__input/popup__input.css");
+@import url("../blocks/popup/__btn-save/popup__btn-save.css");
