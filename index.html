@@ -29,8 +29,9 @@
 
     <section class="cards">
       <ul class="cards__grid">
-        <li class="card">
+        <!-- <li class="card">
           <img src="./images/card/card-karachaevsk.jpg" alt="Здание на фоне горы" class="card__image">
+          <button class="card__btn-remove" type="button" aria-label="Удалить"></button>
           <div class="card__body">
             <h2 class="card__title">Карачаевск</h2>
             <button class="card__btn-like card__btn-like_active" type="button" aria-label="Понравилось"></button>
@@ -70,7 +71,7 @@
             <h2 class="card__title">Карачаево-Черкесия</h2>
             <button class="card__btn-like" type="button" aria-label="Понравилось"></button>
           </div>
-        </li>
+        </li> -->
       </ul>
     </section>
   </main>
@@ -79,19 +80,53 @@
     <p class="footer__copyright">© 2020 Mesto Russia</p>
   </footer>
 
-  <div class="popup">
+  <div class="popup popup_place_profile">
     <div class="popup__container">
       <button class="popup__btn-close" type="button" aria-label="Закрыть"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
-      <form class="popup__form" name="propfile-form">
+      <form class="popup__form" name="form-profile">
         <fieldset class="popup__input-container">
-          <input class="popup__input popup__input_form_name" type="text" name="profile-name" maxlength="32">
-          <input class="popup__input popup__input_form_job" type="text" name="profile-job" maxlength="64">
+          <input class="popup__input popup__input_form_name" type="text" name="profile-name" maxlength="32" placeholder="Изменить имя">
+          <input class="popup__input popup__input_form_job" type="text" name="profile-job" maxlength="64" placeholder="Изменить описание">
         </fieldset>
         <button class="popup__btn-save" type="submit" aria-label="Сохранить">Сохранить</button>
       </form>
     </div>
   </div>
+
+  <div class="popup popup_place_card-add">
+    <div class="popup__container">
+      <button class="popup__btn-close" type="button" aria-label="Закрыть"></button>
+      <h3 class="popup__title">Новое место</h3>
+      <form class="popup__form" name="form-add-card">
+        <fieldset class="popup__input-container">
+          <input class="popup__input popup__input_form_name" type="text" name="card-name" maxlength="32" placeholder="Название">
+          <input class="popup__input popup__input_form_src" type="text" name="card-src" placeholder="Ссылка на картинку">
+        </fieldset>
+        <button class="popup__btn-save" type="submit" aria-label="Сохранить">Сохранить</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="popup popup_place_card-image">
+    <div class="popup__container popup__container_image">
+      <button class="popup__btn-close" type="button" aria-label="Закрыть"></button>
+      <img src="./images/card/test.jpg" alt="" class="popup__image">
+      <p class="popup__image-description">Карачаевск</p>
+    </div>
+  </div>
+
+  <template class="template-card">
+    <li class="card">
+      <img src="" alt="" class="card__image">
+      <button class="card__btn-remove" type="button" aria-label="Удалить"></button>
+      <div class="card__body">
+        <h2 class="card__title"></h2>
+        <button class="card__btn-like card__btn-like_active" type="button" aria-label="Понравилось"></button>
+      </div>
+    </li>
+  </template>
+
   <script src="./scripts/index.js"></script>
 </body>
 
