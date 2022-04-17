@@ -32,15 +32,18 @@ const profileBtnAdd = document.querySelector('.profile__btn-add');
 const popupProfile = document.querySelector('.popup_place_profile');
 const popupProfileInputName = popupProfile.querySelector('.popup__input_form_name');
 const popupProfileInputJob = popupProfile.querySelector('.popup__input_form_job');
-const popupProfileBtnSave = popupProfile.querySelector('.popup__btn-save');
+const popupProfileForm = popupProfile.querySelector('.popup__form');
 
-const popupCardAdd = document.querySelector('.popup_place_card-add');
-const popupCardAddInputName = popupCardAdd.querySelector('.popup__input_form_name');
-const popupCardAddInputSrc = popupCardAdd.querySelector('.popup__input_form_src');
-const popupCardAddBtnSave = popupCardAdd.querySelector('.popup__btn-save');
+const popupCard = document.querySelector('.popup_place_card-add');
+const popupCardInputName = popupCard.querySelector('.popup__input_form_name');
+const popupCardInputSrc = popupCard.querySelector('.popup__input_form_src');
+const popupCardForm = popupCard.querySelector('.popup__form');
 
-const popupImageCard = document.querySelector('.popup_place_card-image');
-const popupBtnsClose = document.querySelectorAll('.popup__btn-close');
+const popupImage = document.querySelector('.popup_place_card-image');
+const popupImagePicture = popupImage.querySelector('.popup__image');
+const popupImageDescription = popupImage.querySelector('.popup__image-description');
+
+const popupCloseBtns = document.querySelectorAll('.popup__btn-close');
 const templateCard = document.querySelector('.template-card').content;
 const listCard = document.querySelector('.cards__grid');
 
@@ -63,24 +66,17 @@ function handlerSaveProfile(evt) {
 
 function handlerSaveCard(evt) {
   evt.preventDefault();
-  const card = getCard({name: popupCardAddInputName.value, link: popupCardAddInputSrc.value});
+  const card = getCard({name: popupCardInputName.value, link: popupCardInputSrc.value});
   listCard.prepend(card);
-  popupCardAddInputName.value = "";
-  popupCardAddInputSrc.value = "";
-  togglePopup(popupCardAdd);
+  popupCardForm.reset();
+  togglePopup(popupCard);
 }
 
-function handlerOpenImage(evt) {
-  const card = evt.target.closest('.card');
-  const cardImageSrc = card.querySelector('.card__image').src;
-  const cardTitle = card.querySelector('.card__title').textContent;
-  const popupImage = popupImageCard.querySelector('.popup__image');
-  const popupImageDescription = popupImageCard.querySelector('.popup__image-description');
-
-  popupImage.src = cardImageSrc;
-  popupImage.alt = cardTitle;
-  popupImageDescription.textContent = cardTitle;
-  togglePopup(popupImageCard);
+function handlerOpenImage(name, src) {
+  popupImagePicture.src = src;
+  popupImagePicture.alt = name;
+  popupImageDescription.textContent = name;
+  togglePopup(popupImage);
 }
 
 function getCard(element) {
@@ -91,11 +87,12 @@ function getCard(element) {
   const cardBtnRemove = card.querySelector('.card__btn-remove');
 
   cardImage.src = element.link;
+  cardImage.alt = element.name;
   cardTitle.textContent = element.name;
 
   cardBtnLike.addEventListener('click', () => cardBtnLike.classList.toggle('card__btn-like_active'));
   cardBtnRemove.addEventListener('click', evt => evt.target.closest('.card').remove());
-  cardImage.addEventListener('click', handlerOpenImage)
+  cardImage.addEventListener('click', () => handlerOpenImage(element.name, element.link));
   return card;
 }
 
@@ -107,11 +104,11 @@ function render() {
 render();
 
 profileBtnEdit.addEventListener('click', handlerEditProfile);
-popupProfileBtnSave.addEventListener('click', handlerSaveProfile);
+popupProfileForm.addEventListener('submit', handlerSaveProfile);
 
-profileBtnAdd.addEventListener('click', () => togglePopup(popupCardAdd));
-popupCardAddBtnSave.addEventListener('click', handlerSaveCard);
+profileBtnAdd.addEventListener('click', () => togglePopup(popupCard));
+popupCardForm.addEventListener('submit', handlerSaveCard);
 
-popupBtnsClose.forEach(item => {
-  item.addEventListener('click', evt => evt.target.closest('.popup').classList.remove('popup_opened'));
+popupCloseBtns.forEach(item => {
+  item.addEventListener('click', evt => togglePopup(evt.target.closest('.popup')));
 });
