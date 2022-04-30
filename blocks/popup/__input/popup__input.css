@@ -1,5 +1,5 @@
 .popup__input {
-    margin-bottom: 20px;
+    margin-top: 13px;
     padding: 10px 0;
     width: 100%;
     box-sizing: border-box;
@@ -8,6 +8,6 @@
     border-bottom: 1px solid rgba(0, 0, 0, .2);
 }
 
-.popup__input:last-child {
-    margin-bottom: 0;
+.popup__input:first-child {
+    margin-top: 0;
 }

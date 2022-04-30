@@ -1,0 +1,13 @@
+.popup__btn-save_type_deactivate {
+    border: 1px solid #000;
+    background-color: #fff;
+    color: #000;
+    opacity: .2;
+}
+
+.popup__btn-save_type_deactivate:hover {
+    border: 1px solid #000;
+    background-color: #fff;
+    color: #000;
+    opacity: .2;
+}

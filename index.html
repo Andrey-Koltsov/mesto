@@ -36,14 +36,28 @@
     <p class="footer__copyright">© 2020 Mesto Russia</p>
   </footer>
 
-  <div class="popup popup_place_profile">
+  <div class="popup popup_place_profile popup_opened">
     <div class="popup__container">
       <button class="popup__btn-close" type="button" aria-label="Закрыть"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
       <form class="popup__form" name="form-profile">
         <fieldset class="popup__input-container">
-          <input class="popup__input popup__input_form_name" type="text" name="profile-name" maxlength="32">
-          <input class="popup__input popup__input_form_job" type="text" name="profile-job" maxlength="64">
+          <input class="popup__input popup__input_form_name popup__input_type_error"
+            required
+            type="text"
+            name="profile-name"
+            minlength="2"
+            maxlength="40"
+          >
+          <span class="popup__error">Error</span>
+          <input class="popup__input popup__input_form_job"
+            required
+            type="text"
+            name="profile-job"
+            minlength="2"
+            maxlength="200"
+          >
+          <span class="popup__error">Error</span>
         </fieldset>
         <button class="popup__btn-save" type="submit" aria-label="Сохранить">Сохранить</button>
       </form>
@@ -56,8 +70,17 @@
       <h3 class="popup__title">Новое место</h3>
       <form class="popup__form" name="form-add-card">
         <fieldset class="popup__input-container">
-          <input class="popup__input popup__input_form_name" type="text" name="card-name" maxlength="32" placeholder="Название">
-          <input class="popup__input popup__input_form_src" type="text" name="card-src" placeholder="Ссылка на картинку">
+          <input class="popup__input popup__input_form_name"
+            type="text"
+            name="card-name"
+            placeholder="Название"
+            minlength="2"
+            maxlength="30"
+          >
+          <input class="popup__input popup__input_form_src"
+          type="url"
+          name="card-src"
+          placeholder="Ссылка на картинку">
         </fieldset>
         <button class="popup__btn-save" type="submit" aria-label="Сохранить">Создать</button>
       </form>
