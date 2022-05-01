@@ -43,12 +43,20 @@ const popupImage = document.querySelector('.popup_place_card-image');
 const popupImagePicture = popupImage.querySelector('.popup__image');
 const popupImageDescription = popupImage.querySelector('.popup__image-description');
 
+const popups = document.querySelectorAll('.popup');
 const popupCloseBtns = document.querySelectorAll('.popup__btn-close');
 const templateCard = document.querySelector('.template-card').content;
 const listCard = document.querySelector('.cards__grid');
 
 function togglePopup(element) {
   element.classList.toggle('popup_opened');
+}
+
+function closePopupForKeybord() {
+  const openedPopup = document.querySelector('.popup_opened');
+  if (openedPopup) {
+    togglePopup(openedPopup);
+  }
 }
 
 function handlerEditProfile() {
@@ -111,4 +119,18 @@ popupCardForm.addEventListener('submit', handlerSaveCard);
 
 popupCloseBtns.forEach(item => {
   item.addEventListener('click', evt => togglePopup(evt.target.closest('.popup')));
+});
+
+popups.forEach(popup => {
+  popup.addEventListener('click', evt => {
+    if (evt.target === popup) {
+      togglePopup(popup);
+    }
+  });
+});
+
+document.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape') {
+    closePopupForKeybord()
+  }
 });
