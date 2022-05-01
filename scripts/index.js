@@ -38,6 +38,7 @@ const popupCard = document.querySelector('.popup_place_card-add');
 const popupCardInputName = popupCard.querySelector('.popup__input_form_name');
 const popupCardInputSrc = popupCard.querySelector('.popup__input_form_src');
 const popupCardForm = popupCard.querySelector('.popup__form');
+const popupCardBtnSubmit = popupCard.querySelector('.popup__btn-save');
 
 const popupImage = document.querySelector('.popup_place_card-image');
 const popupImagePicture = popupImage.querySelector('.popup__image');
@@ -114,7 +115,10 @@ render();
 profileBtnEdit.addEventListener('click', handlerEditProfile);
 popupProfileForm.addEventListener('submit', handlerSaveProfile);
 
-profileBtnAdd.addEventListener('click', () => togglePopup(popupCard));
+profileBtnAdd.addEventListener('click', () => {
+  togglePopup(popupCard);
+  disableButtonForm(popupCardBtnSubmit);
+});
 popupCardForm.addEventListener('submit', handlerSaveCard);
 
 popupCloseBtns.forEach(item => {
