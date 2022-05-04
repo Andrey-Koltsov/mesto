@@ -1,29 +1,3 @@
-const initialCards = [{
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 const profileBtnEdit = document.querySelector('.profile__btn-edit');
@@ -45,47 +19,56 @@ const popupImagePicture = popupImage.querySelector('.popup__image');
 const popupImageDescription = popupImage.querySelector('.popup__image-description');
 
 const popups = document.querySelectorAll('.popup');
-const popupCloseBtns = document.querySelectorAll('.popup__btn-close');
 const templateCard = document.querySelector('.template-card').content;
 const listCard = document.querySelector('.cards__grid');
 
-function togglePopup(element) {
-  element.classList.toggle('popup_opened');
+function openPopup(element) {
+  element.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupForKeybord);
 }
 
-function closePopupForKeybord() {
-  const openedPopup = document.querySelector('.popup_opened');
-  if (openedPopup) {
-    togglePopup(openedPopup);
+function closePopup(element) {
+  element.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupForKeybord);
+}
+
+function closePopupForKeybord(evt) {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
   }
 }
 
-function handlerEditProfile() {
+function handleEditProfile() {
   popupProfileInputName.value = profileName.textContent;
   popupProfileInputJob.value = profileJob.textContent;
-  togglePopup(popupProfile);
+  openPopup(popupProfile);
 }
 
-function handlerSaveProfile(evt) {
+function handleSaveProfile(evt) {
   evt.preventDefault();
   profileName.textContent = popupProfileInputName.value;
   profileJob.textContent = popupProfileInputJob.value;
-  togglePopup(popupProfile);
+  closePopup(popupProfile);
 }
 
-function handlerSaveCard(evt) {
+function handleSaveCard(evt) {
   evt.preventDefault();
   const card = getCard({name: popupCardInputName.value, link: popupCardInputSrc.value});
   listCard.prepend(card);
   popupCardForm.reset();
-  togglePopup(popupCard);
+  closePopup(popupCard);
 }
 
-function handlerOpenImage(name, src) {
+function handleOpenImage(name, src) {
   popupImagePicture.src = src;
   popupImagePicture.alt = name;
   popupImageDescription.textContent = name;
-  togglePopup(popupImage);
+  openPopup(popupImage);
+}
+
+function removeCard(evt) {
+  evt.target.closest('.card').remove()
 }
 
 function getCard(element) {
@@ -100,41 +83,31 @@ function getCard(element) {
   cardTitle.textContent = element.name;
 
   cardBtnLike.addEventListener('click', () => cardBtnLike.classList.toggle('card__btn-like_active'));
-  cardBtnRemove.addEventListener('click', evt => evt.target.closest('.card').remove());
-  cardImage.addEventListener('click', () => handlerOpenImage(element.name, element.link));
+  cardBtnRemove.addEventListener('click', removeCard);
+  cardImage.addEventListener('click', () => handleOpenImage(element.name, element.link));
   return card;
 }
 
-function render() {
+function renderCards() {
   const cards = initialCards.map(getCard);
   listCard.append(...cards);
 }
 
-render();
+renderCards();
 
-profileBtnEdit.addEventListener('click', handlerEditProfile);
-popupProfileForm.addEventListener('submit', handlerSaveProfile);
+profileBtnEdit.addEventListener('click', handleEditProfile);
+popupProfileForm.addEventListener('submit', handleSaveProfile);
 
 profileBtnAdd.addEventListener('click', () => {
-  togglePopup(popupCard);
-  disableButtonForm(popupCardBtnSubmit);
+  disableButtonForm(popupCardBtnSubmit, 'popup__btn-save_disabled');
+  openPopup(popupCard);
 });
-popupCardForm.addEventListener('submit', handlerSaveCard);
-
-popupCloseBtns.forEach(item => {
-  item.addEventListener('click', evt => togglePopup(evt.target.closest('.popup')));
-});
+popupCardForm.addEventListener('submit', handleSaveCard);
 
 popups.forEach(popup => {
   popup.addEventListener('click', evt => {
-    if (evt.target === popup) {
-      togglePopup(popup);
+    if (evt.target === popup || evt.target.classList.contains('popup__btn-close')) {
+      closePopup(popup);
     }
   });
-});
-
-document.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
-    closePopupForKeybord()
-  }
 });

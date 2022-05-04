@@ -1,3 +1,11 @@
+const config = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__btn-save',
+    inactiveButtonClass: 'popup__btn-save_disabled',
+    inputErrorClass: 'popup__input_type_error'
+};
+
 function enableValidation(config) {
  const forms = document.querySelectorAll(config.formSelector);
 
@@ -13,14 +21,14 @@ function setListenerInputs(form, config) {
     
     inputs.forEach(input => {
         input.addEventListener('input', () => {
-            handlerInputValid(form, input, config);
+            handleInputValid(form, input, config);
             toggleButtonForm(inputs, submitBtn, config);
         });
     });
     toggleButtonForm(inputs, submitBtn, config);
 }
 
-function handlerInputValid(form, input, config) {
+function handleInputValid(form, input, config) {
     const inputErrorMessage = form.querySelector(`.${input.id}-error`);
 
     if (input.validity.valid) {
@@ -38,29 +46,24 @@ function hasInputsValid(inputs) {
     })
 }
 
-function toggleButtonForm(inputs, submitBtn) {
+function toggleButtonForm(inputs, submitBtn, config) {
     const stateInputs = hasInputsValid(inputs);
 
     if (stateInputs) {
-        disableButtonForm(submitBtn);
+        disableButtonForm(submitBtn, config.inactiveButtonClass);
     } else {
-        enableButtonForm(submitBtn);
+        enableButtonForm(submitBtn, config.inactiveButtonClass);
     }
 }
 
-function disableButtonForm(button) {
-    button.classList.add('popup__btn-save_disabled');
+function disableButtonForm(button, buttonSelector) {
+    button.classList.add(buttonSelector);
     button.disabled = true;
 }
 
-function enableButtonForm(button) {
-    button.classList.remove('popup__btn-save_disabled');
+function enableButtonForm(button, buttonSelector) {
+    button.classList.remove(buttonSelector);
     button.disabled = false;
 }
 
-enableValidation({
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__btn-save',
-    inputErrorClass: 'popup__input_type_error'
-  }); 
+enableValidation(config); 
