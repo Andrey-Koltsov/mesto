@@ -1,3 +1,6 @@
+import {initialCards} from "./data.js";
+import {Card} from "./Card.js";
+
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 const profileBtnEdit = document.querySelector('.profile__btn-edit');
@@ -19,7 +22,6 @@ const popupImagePicture = popupImage.querySelector('.popup__image');
 const popupImageDescription = popupImage.querySelector('.popup__image-description');
 
 const popups = document.querySelectorAll('.popup');
-const templateCard = document.querySelector('.template-card').content;
 const listCard = document.querySelector('.cards__grid');
 
 function openPopup(element) {
@@ -67,25 +69,10 @@ function handleOpenImage(name, src) {
   openPopup(popupImage);
 }
 
-function removeCard(evt) {
-  evt.target.closest('.card').remove()
-}
-
 function getCard(element) {
-  const card = templateCard.cloneNode(true);
-  const cardImage = card.querySelector('.card__image');
-  const cardTitle = card.querySelector('.card__title');
-  const cardBtnLike = card.querySelector('.card__btn-like');
-  const cardBtnRemove = card.querySelector('.card__btn-remove');
+  const card = new Card(element, '.template-card', handleOpenImage);
 
-  cardImage.src = element.link;
-  cardImage.alt = element.name;
-  cardTitle.textContent = element.name;
-
-  cardBtnLike.addEventListener('click', () => cardBtnLike.classList.toggle('card__btn-like_active'));
-  cardBtnRemove.addEventListener('click', removeCard);
-  cardImage.addEventListener('click', () => handleOpenImage(element.name, element.link));
-  return card;
+  return card.getElement();
 }
 
 function renderCards() {
