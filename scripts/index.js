@@ -1,5 +1,6 @@
-import {initialCards} from "./data.js";
-import {Card} from "./Card.js";
+import { initialCards } from "./data.js";
+import { Card } from "./Card.js";
+import { FormValidator } from "./FormValidator.js";
 
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
@@ -15,7 +16,6 @@ const popupCard = document.querySelector('.popup_place_card-add');
 const popupCardInputName = popupCard.querySelector('.popup__input_form_name');
 const popupCardInputSrc = popupCard.querySelector('.popup__input_form_src');
 const popupCardForm = popupCard.querySelector('.popup__form');
-const popupCardBtnSubmit = popupCard.querySelector('.popup__btn-save');
 
 const popupImage = document.querySelector('.popup_place_card-image');
 const popupImagePicture = popupImage.querySelector('.popup__image');
@@ -23,6 +23,19 @@ const popupImageDescription = popupImage.querySelector('.popup__image-descriptio
 
 const popups = document.querySelectorAll('.popup');
 const listCard = document.querySelector('.cards__grid');
+
+const configValidate = {
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__btn-save',
+  inactiveButtonClass: 'popup__btn-save_disabled',
+  inputErrorClass: 'popup__input_type_error'
+};
+
+const formProfileValidate = new FormValidator(configValidate, popupProfileForm);
+const formCardValidate = new FormValidator(configValidate, popupCardForm);
+formProfileValidate.enableValidation();
+formCardValidate.enableValidation();
+
 
 function openPopup(element) {
   element.classList.add('popup_opened');
@@ -69,9 +82,8 @@ function handleOpenImage(name, src) {
   openPopup(popupImage);
 }
 
-function getCard(element) {
-  const card = new Card(element, '.template-card', handleOpenImage);
-
+function getCard(dataElement) {
+  const card = new Card(dataElement, '.template-card', handleOpenImage);
   return card.getElement();
 }
 
@@ -79,14 +91,13 @@ function renderCards() {
   const cards = initialCards.map(getCard);
   listCard.append(...cards);
 }
-
 renderCards();
 
 profileBtnEdit.addEventListener('click', handleEditProfile);
 popupProfileForm.addEventListener('submit', handleSaveProfile);
 
 profileBtnAdd.addEventListener('click', () => {
-  disableButtonForm(popupCardBtnSubmit, 'popup__btn-save_disabled');
+  formCardValidate.disableButtonForm();
   openPopup(popupCard);
 });
 popupCardForm.addEventListener('submit', handleSaveCard);
