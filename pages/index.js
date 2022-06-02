@@ -1,35 +1,46 @@
-import { initialCards } from "./data.js";
-import { Card } from "./Card.js";
-import { FormValidator } from "./FormValidator.js";
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import UserInfo from "../components/UserInfo.js";
+import Section from "../components/Section.js";
 
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__job');
-const profileBtnEdit = document.querySelector('.profile__btn-edit');
-const profileBtnAdd = document.querySelector('.profile__btn-add');
+import {
+  configValidate,
+  initialCards,
+  listCard,
+  listCardSelector,
+  popupCard,
+  popupCardForm,
+  popupCardInputName,
+  popupCardInputSrc,
+  popupImage,
+  popupImageDescription,
+  popupImagePicture,
+  popupProfile,
+  popupProfileForm,
+  popupProfileInputJob,
+  popupProfileInputName,
+  popups,profileBtnAdd,
+  profileBtnEdit,
+  profileJob,
+  profileName,
+  profileSelectors
+} from "../utils/constants.js";
 
-const popupProfile = document.querySelector('.popup_place_profile');
-const popupProfileInputName = popupProfile.querySelector('.popup__input_form_name');
-const popupProfileInputJob = popupProfile.querySelector('.popup__input_form_job');
-const popupProfileForm = popupProfile.querySelector('.popup__form');
 
-const popupCard = document.querySelector('.popup_place_card-add');
-const popupCardInputName = popupCard.querySelector('.popup__input_form_name');
-const popupCardInputSrc = popupCard.querySelector('.popup__input_form_src');
-const popupCardForm = popupCard.querySelector('.popup__form');
+const userInfo = new UserInfo(profileSelectors);
 
-const popupImage = document.querySelector('.popup_place_card-image');
-const popupImagePicture = popupImage.querySelector('.popup__image');
-const popupImageDescription = popupImage.querySelector('.popup__image-description');
 
-const popups = document.querySelectorAll('.popup');
-const listCard = document.querySelector('.cards__grid');
+const section = new Section({
+  items: initialCards,
+  renderer: (dataElement) => {
+    const card = new Card(dataElement, '.template-card', handleOpenImage);
+    return card.getElement();
+  }
+}, listCardSelector);
 
-const configValidate = {
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__btn-save',
-  inactiveButtonClass: 'popup__btn-save_disabled',
-  inputErrorClass: 'popup__input_type_error'
-};
+section.initialRender();
+
+// OLD
 
 const formProfileValidate = new FormValidator(configValidate, popupProfileForm);
 const formCardValidate = new FormValidator(configValidate, popupCardForm);
@@ -82,16 +93,16 @@ function handleOpenImage(name, src) {
   openPopup(popupImage);
 }
 
-function getCard(dataElement) {
-  const card = new Card(dataElement, '.template-card', handleOpenImage);
-  return card.getElement();
-}
+// function getCard(dataElement) {
+//   const card = new Card(dataElement, '.template-card', handleOpenImage);
+//   return card.getElement();
+// }
 
-function renderCards() {
-  const cards = initialCards.map(getCard);
-  listCard.append(...cards);
-}
-renderCards();
+// function renderCards() {
+//   const cards = initialCards.map(getCard);
+//   listCard.append(...cards);
+// }
+// renderCards();
 
 profileBtnEdit.addEventListener('click', handleEditProfile);
 popupProfileForm.addEventListener('submit', handleSaveProfile);
