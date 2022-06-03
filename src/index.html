@@ -4,19 +4,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./pages/index.css">
+  <!-- <link rel="stylesheet" href="./pages/index.css"> -->
   <title>Место</title>
 </head>
 
 <body class="page">
   <header class="header">
     <a href="#">
-      <img src="./images/logo/logo.svg" alt="Логотип Место" class="logo">
+      <img src="<%=require('./images/logo/logo.svg')%>" alt="Логотип Место" class="logo">
     </a>
   </header>
   <main class="page__container">
     <section class="profile">
-      <img src="./images/profile/profile-avatar.jpg" alt="Аватар" class="profile__avatar">
+      <img src="<%=require('./images/profile/profile-avatar.jpg')%>" alt="Аватар" class="profile__avatar">
       <div class="profile__info">
         <div class="profile__info-heading">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -102,14 +102,14 @@
   <div class="popup popup_place_card-image">
     <div class="popup__container popup__container_image">
       <button class="popup__btn-close" type="button" aria-label="Закрыть"></button>
-      <img src="./images/card/card-dombay.jpg" alt="Горы Домбай" class="popup__image">
+      <img src="<%=require('./images/card/card-dombay.jpg')%>" alt="Горы Домбай" class="popup__image">
       <p class="popup__image-description"></p>
     </div>
   </div>
 
   <template class="template-card">
     <li class="card">
-      <img src="./images/card/card-dombay.jpg" alt="Горы Домбай" class="card__image">
+      <img src="<%=require('./images/card/card-dombay.jpg')%>" alt="Горы Домбай" class="card__image">
       <button class="card__btn-remove" type="button" aria-label="Удалить"></button>
       <div class="card__body">
         <h2 class="card__title"></h2>
@@ -118,7 +118,7 @@
     </li>
   </template>
 
-  <script src="./pages/index.js" type="module"></script>
+  <!-- <script src="./pages/index.js" type="module"></script> -->
 </body>
 
 </html>

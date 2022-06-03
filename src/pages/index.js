@@ -4,6 +4,7 @@ import UserInfo from "../components/UserInfo.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import "./index.css";
 
 import {
   initialCards,
@@ -22,14 +23,7 @@ const userInfo = new UserInfo(profileSelectors);
 
 const section = new Section({
   items: initialCards,
-  renderer: (dataElement) => {
-    const card = new Card({
-      data: dataElement,
-      templateSelector: '.template-card',
-      handleCardClick: handleOpenImage
-    });
-    return card.getElement();
-  }
+  renderer: getCard
 }, listCardSelector);
 section.initialRender();
 
@@ -45,7 +39,6 @@ const popupWithEditProfile = new PopupWithForm({
       name: data['profile-name'],
       job: data['profile-job']
     });
-    console.log(data);
   }
 });
 popupWithEditProfile.setEventListeners();
@@ -70,15 +63,11 @@ formProfileValidate.enableValidation();
 formCardValidate.enableValidation();
 
 
-function handleOpenImage(name, src) {
-  popupWithImage.open(name, src);
-}
-
 function getCard(dataElement) {
   const card = new Card({
     data: dataElement,
     templateSelector: '.template-card',
-    handleCardClick: handleOpenImage
+    handleCardClick: (name, src) => popupWithImage.open(name, src)
   });
   return card.getElement();
 }
@@ -90,7 +79,6 @@ profileBtnEdit.addEventListener('click', () => {
 });
 
 profileBtnAdd.addEventListener('click', () => {
-  console.log('dsfsdf');
   formCardValidate.disableButtonForm();
   popupWithCardAdd.open();
 });
