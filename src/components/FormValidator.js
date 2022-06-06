@@ -2,6 +2,8 @@ export default class FormValidator {
     constructor(config, formElement) {
         this._config = config;
         this._form = formElement;
+        this._inputs = Array.from(this._form.querySelectorAll(this._config.inputSelector));
+        this._btnSubmit = this._form.querySelector(this._config.submitButtonSelector);
     }
     
     _setListenerInputs() {
@@ -53,9 +55,6 @@ export default class FormValidator {
     }
 
     enableValidation() {
-        this._inputs = Array.from(this._form.querySelectorAll(this._config.inputSelector));
-        this._btnSubmit = this._form.querySelector(this._config.submitButtonSelector);
-
         this._setListenerInputs();
     }
 }
