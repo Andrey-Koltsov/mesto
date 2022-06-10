@@ -23,7 +23,6 @@ import {
 
 const userInfo = new UserInfo(profileSelectors);
 
-
 const section = new Section({
   items: initialCards,
   renderer: getCard
@@ -31,17 +30,17 @@ const section = new Section({
 section.initialRender();
 
 
-const popupWithImage = new PopupWithImage('.popup_place_card-image');
-popupWithImage.setEventListeners();
-
-const popupWithRemoveCard = new PopupWithRemoveCard({
-  popupSelector: '.popup_place_card-remove',
-  handleSave: () => {
-    console.log('Remove Card!');
+const popupWithUpdateAvatar = new PopupWithForm({
+  popupSelector: '.popup_place_avatar',
+  submitForm: (data) => {
+    // const card = getCard({
+    //   name: data['card-name'],
+    //   link: data['card-src']
+    // });
+    // section.addItem(card);
   }
 });
-popupWithRemoveCard.setEventListeners();
-
+popupWithUpdateAvatar.setEventListeners();
 
 const popupWithEditProfile = new PopupWithForm({
   popupSelector: '.popup_place_profile',
@@ -53,7 +52,6 @@ const popupWithEditProfile = new PopupWithForm({
   }
 });
 popupWithEditProfile.setEventListeners();
-
 
 const popupWithCardAdd = new PopupWithForm({
   popupSelector: '.popup_place_card-add',
@@ -67,17 +65,16 @@ const popupWithCardAdd = new PopupWithForm({
 });
 popupWithCardAdd.setEventListeners();
 
-const popupWithUpdateAvatar = new PopupWithForm({
-  popupSelector: '.popup_place_avatar',
-  submitForm: (data) => {
-    // const card = getCard({
-    //   name: data['card-name'],
-    //   link: data['card-src']
-    // });
-    // section.addItem(card);
+const popupWithImage = new PopupWithImage('.popup_place_card-image');
+popupWithImage.setEventListeners();
+
+const popupWithRemoveCard = new PopupWithRemoveCard({
+  popupSelector: '.popup_place_card-remove',
+  handleSave: () => {
+    console.log('Remove Card!');
   }
 });
-popupWithUpdateAvatar.setEventListeners();
+popupWithRemoveCard.setEventListeners();
 
 
 const formProfileValidate = new FormValidator(configValidate, popupProfileForm);
