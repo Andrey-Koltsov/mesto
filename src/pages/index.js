@@ -72,9 +72,21 @@ function getCard(dataElement) {
   return card.getElement();
 }
 
+function getUserInfo() {
+  const {name, job} = userInfo.getUserInfo();
+  return [{
+    selector: '.popup__input_form_name',
+    value: name
+  },
+  {
+    selector: '.popup__input_form_job',
+    value: job
+  }]
+}
 
 profileBtnEdit.addEventListener('click', () => {
   formProfileValidate.disableButtonForm();
+  popupWithEditProfile.setInputsData(getUserInfo());
   popupWithEditProfile.open();
 });
 
