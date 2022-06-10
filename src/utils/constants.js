@@ -26,7 +26,8 @@ export const initialCards = [{
 
 export const profileSelectors = {
   nameSelector: '.profile__name',
-  jobSelector: '.profile__job'
+  jobSelector: '.profile__job',
+  avatarSelector: '.avatar__photo'
 };
 
 export const configValidate = {

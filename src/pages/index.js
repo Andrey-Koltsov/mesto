@@ -5,6 +5,7 @@ import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithRemoveCard from "../components/PopupWithRemoveCard.js";
+import Api from "../components/Api.js";
 import "./index.css";
 
 import {
@@ -20,6 +21,13 @@ import {
   popupAvatarForm
 } from "../utils/constants.js";
 
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-43',
+  headers: {
+    authorization: '10f3c5e9-427f-4c5d-b986-8f6bfc1bfc5c',
+    'Content-Type': 'application/json'
+  }
+});
 
 const userInfo = new UserInfo(profileSelectors);
 
@@ -124,3 +132,10 @@ avatar.addEventListener('click', () => {
   formAvatarValidate.disableButtonForm();
   popupWithUpdateAvatar.open();
 });
+
+api.getUserInfo()
+  .then(data => {
+    console.log(data)
+    userInfo.setUserAvatar(data.avatar);
+    userInfo.setUserInfo({name: data.name, job: data.about})
+  });
