@@ -17,7 +17,7 @@ export default class Card {
     }
 
     _handleBtnLike() {
-        this._btnLike.classList.toggle('card__btn-like_active')
+        this._btnLike.classList.toggle('card__like-btn_active')
     }
 
     _handleBtnRemove() {
@@ -32,8 +32,8 @@ export default class Card {
 
     getElement() {
         this._card = this._getTemplate();
-        this._btnLike = this._card.querySelector('.card__btn-like');
-        this._btnRemove = this._card.querySelector('.card__btn-remove');
+        this._btnLike = this._card.querySelector('.card__like-btn');
+        this._btnRemove = this._card.querySelector('.card__remove');
         this._image = this._card.querySelector('.card__image');
 
         this._card.querySelector('.card__title').textContent = this._name;

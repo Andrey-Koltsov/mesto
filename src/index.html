@@ -110,10 +110,13 @@
   <template class="template-card">
     <li class="card">
       <img src="<%=require('./images/card/card-dombay.jpg')%>" alt="Горы Домбай" class="card__image">
-      <button class="card__btn-remove" type="button" aria-label="Удалить"></button>
+      <button class="card__remove" type="button" aria-label="Удалить"></button>
       <div class="card__body">
         <h2 class="card__title"></h2>
-        <button class="card__btn-like" type="button" aria-label="Понравилось"></button>
+        <div class="card__like">
+          <button class="card__like-btn" type="button" aria-label="Понравилось"></button>
+          <span class="card__like-count">0</span>
+        </div>
       </div>
     </li>
   </template>

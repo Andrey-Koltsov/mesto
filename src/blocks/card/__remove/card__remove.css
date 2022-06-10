@@ -1,4 +1,4 @@
-.card__btn-remove {
+.card__remove {
     width: 18px;
     height: 19px;
     position: absolute;
@@ -14,6 +14,6 @@
     transition: .2s opacity linear;
 }
 
-.card__btn-remove:hover {
+.card__remove:hover {
     opacity: .6;
 }
