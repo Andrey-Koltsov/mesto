@@ -4,6 +4,7 @@ import UserInfo from "../components/UserInfo.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithRemoveCard from "../components/PopupWithRemoveCard.js";
 import "./index.css";
 
 import {
@@ -15,6 +16,8 @@ import {
   popupCardForm,
   profileBtnAdd,
   profileBtnEdit,
+  avatar,
+  popupAvatarForm
 } from "../utils/constants.js";
 
 
@@ -30,6 +33,14 @@ section.initialRender();
 
 const popupWithImage = new PopupWithImage('.popup_place_card-image');
 popupWithImage.setEventListeners();
+
+const popupWithRemoveCard = new PopupWithRemoveCard({
+  popupSelector: '.popup_place_card-remove',
+  handleSave: () => {
+    console.log('Remove Card!');
+  }
+});
+popupWithRemoveCard.setEventListeners();
 
 
 const popupWithEditProfile = new PopupWithForm({
@@ -56,18 +67,35 @@ const popupWithCardAdd = new PopupWithForm({
 });
 popupWithCardAdd.setEventListeners();
 
+const popupWithUpdateAvatar = new PopupWithForm({
+  popupSelector: '.popup_place_avatar',
+  submitForm: (data) => {
+    // const card = getCard({
+    //   name: data['card-name'],
+    //   link: data['card-src']
+    // });
+    // section.addItem(card);
+  }
+});
+popupWithUpdateAvatar.setEventListeners();
+
 
 const formProfileValidate = new FormValidator(configValidate, popupProfileForm);
 const formCardValidate = new FormValidator(configValidate, popupCardForm);
+const formAvatarValidate = new FormValidator(configValidate, popupAvatarForm);
 formProfileValidate.enableValidation();
 formCardValidate.enableValidation();
+formAvatarValidate.enableValidation();
 
 
 function getCard(dataElement) {
   const card = new Card({
     data: dataElement,
     templateSelector: '.template-card',
-    handleCardClick: (name, src) => popupWithImage.open(name, src)
+    handleCardClick: (name, src) => popupWithImage.open(name, src),
+    handleCardRemove: () => {
+      popupWithRemoveCard.open();
+    }
   });
   return card.getElement();
 }
@@ -93,4 +121,9 @@ profileBtnEdit.addEventListener('click', () => {
 profileBtnAdd.addEventListener('click', () => {
   formCardValidate.disableButtonForm();
   popupWithCardAdd.open();
+});
+
+avatar.addEventListener('click', () => {
+  formAvatarValidate.disableButtonForm();
+  popupWithUpdateAvatar.open();
 });

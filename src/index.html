@@ -16,7 +16,10 @@
   </header>
   <main class="page__container">
     <section class="profile">
-      <img src="<%=require('./images/profile/profile-avatar.jpg')%>" alt="Аватар" class="profile__avatar">
+      <div class="avatar">
+        <div class="avatar__wrapper"></div>
+        <img src="<%=require('./images/profile/profile-avatar.jpg')%>" alt="" class="avatar__photo">
+      </div>
       <div class="profile__info">
         <div class="profile__info-heading">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -63,7 +66,7 @@
           >
           <span class="popup__error input-profile-job-error"></span>
         </fieldset>
-        <button class="popup__btn-save" type="submit" aria-label="Сохранить">Сохранить</button>
+        <button class="popup__btn-submit" type="submit" aria-label="Сохранить">Сохранить</button>
       </form>
     </div>
   </div>
@@ -94,8 +97,37 @@
           >
           <span class="popup__error input-card-src-error"></span>
         </fieldset>
-        <button class="popup__btn-save" type="submit" aria-label="Сохранить">Создать</button>
+        <button class="popup__btn-submit" type="submit" aria-label="Сохранить">Создать</button>
       </form>
+    </div>
+  </div>
+
+  <div class="popup popup_place_avatar">
+    <div class="popup__container">
+      <button class="popup__btn-close" type="button" aria-label="Закрыть"></button>
+      <h3 class="popup__title">Обновить аватар</h3>
+      <form class="popup__form" name="form-update-avatar" novalidate>
+        <fieldset class="popup__input-container">
+          <input class="popup__input popup__input_form_src"
+            required
+            id="input-card-src"
+            type="url"
+            minlength="2"
+            name="card-src"
+            placeholder="Ссылка на новый аватар"
+          >
+          <span class="popup__error input-card-src-error"></span>
+        </fieldset>
+        <button class="popup__btn-submit" type="submit" aria-label="Сохранить">Создать</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="popup popup_place_card-remove">
+    <div class="popup__container">
+      <button class="popup__btn-close" type="button" aria-label="Закрыть"></button>
+      <h3 class="popup__title">Вы уверены?</h3>
+      <button class="popup__btn-submit" type="submit" aria-label="Удалить">Да</button>
     </div>
   </div>
 
@@ -121,7 +153,6 @@
     </li>
   </template>
 
-  <!-- <script src="./pages/index.js" type="module"></script> -->
 </body>
 
 </html>
