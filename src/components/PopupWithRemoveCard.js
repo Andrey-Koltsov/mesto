@@ -2,16 +2,16 @@ import Popup from "./Popup.js";
 
 export default class PopupWithRemoveCard extends Popup {
 
-    constructor({popupSelector, handleSave}) {
+    constructor({popupSelector, handleRemove}) {
         super(popupSelector);
-        this._handleSave = handleSave;
-        this._btnSave = this._popup.querySelector('.popup__btn-submit');
+        this._handleRemove = handleRemove;
+        this._form = this._popup.querySelector('.popup__form');
     }
 
     setEventListeners() {
-        this._btnSave.addEventListener('click', (evt) => {
+        this._form.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            this._handleSave();
+            this._handleRemove();
         });
         super.setEventListeners();
     }

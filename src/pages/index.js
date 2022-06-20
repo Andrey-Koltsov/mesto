@@ -9,7 +9,6 @@ import Api from "../components/Api.js";
 import "./index.css";
 
 import {
-  initialCards,
   profileSelectors,
   configValidate,
   listCardSelector,
@@ -30,22 +29,17 @@ const api = new Api({
 });
 
 const userInfo = new UserInfo(profileSelectors);
-
-const section = new Section({
-  items: initialCards,
-  renderer: getCard
-}, listCardSelector);
-section.initialRender();
+const section = new Section(getCard, listCardSelector);
 
 
 const popupWithUpdateAvatar = new PopupWithForm({
   popupSelector: '.popup_place_avatar',
   submitForm: (data) => {
-    // const card = getCard({
-    //   name: data['card-name'],
-    //   link: data['card-src']
-    // });
-    // section.addItem(card);
+    api.setUserAvatar(data['card-src'])
+      .then(data => {
+        console.log(res);
+        userInfo.setUserInfo(data);
+      });
   }
 });
 popupWithUpdateAvatar.setEventListeners();
@@ -53,9 +47,9 @@ popupWithUpdateAvatar.setEventListeners();
 const popupWithEditProfile = new PopupWithForm({
   popupSelector: '.popup_place_profile',
   submitForm: (data) => {
-    userInfo.setUserInfo({
-      name: data['profile-name'],
-      job: data['profile-job']
+    api.setUserInfo(data)
+      .then(data => {
+        userInfo.setUserInfo(data);
     });
   }
 });
@@ -78,8 +72,9 @@ popupWithImage.setEventListeners();
 
 const popupWithRemoveCard = new PopupWithRemoveCard({
   popupSelector: '.popup_place_card-remove',
-  handleSave: () => {
+  handleRemove: () => {
     console.log('Remove Card!');
+    popupWithRemoveCard.close();
   }
 });
 popupWithRemoveCard.setEventListeners();
@@ -97,9 +92,11 @@ function getCard(dataElement) {
   const card = new Card({
     data: dataElement,
     templateSelector: '.template-card',
+    userId: userInfo.getUserId(),
     handleCardClick: (name, src) => popupWithImage.open(name, src),
-    handleCardRemove: () => {
+    handleCardRemove: (cardId) => {
       popupWithRemoveCard.open();
+      console.log(cardId);
     }
   });
   return card.getElement();
@@ -133,9 +130,14 @@ avatar.addEventListener('click', () => {
   popupWithUpdateAvatar.open();
 });
 
-api.getUserInfo()
-  .then(data => {
-    console.log(data)
-    userInfo.setUserAvatar(data.avatar);
-    userInfo.setUserInfo({name: data.name, job: data.about})
+Promise.all([api.getCard(), api.getUserInfo()])
+  .then(([cards, userData]) => {
+    userInfo.setUserInfo(userData);
+
+    cards.forEach(card => {
+      section.addItem(getCard(card));
+    });
+
+    console.log(userData);
+    
   });
