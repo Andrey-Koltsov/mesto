@@ -37,9 +37,9 @@ const popupWithUpdateAvatar = new PopupWithForm({
   submitForm: (data) => {
     api.setUserAvatar(data['card-src'])
       .then(data => {
-        console.log(res);
         userInfo.setUserInfo(data);
-      });
+      })
+      .catch(err => console.log(err));
   }
 });
 popupWithUpdateAvatar.setEventListeners();
@@ -50,7 +50,8 @@ const popupWithEditProfile = new PopupWithForm({
     api.setUserInfo(data)
       .then(data => {
         userInfo.setUserInfo(data);
-    });
+      })
+      .catch(err => console.log(err));
   }
 });
 popupWithEditProfile.setEventListeners();
@@ -58,11 +59,12 @@ popupWithEditProfile.setEventListeners();
 const popupWithCardAdd = new PopupWithForm({
   popupSelector: '.popup_place_card-add',
   submitForm: (data) => {
-    const card = getCard({
-      name: data['card-name'],
-      link: data['card-src']
-    });
-    section.addItem(card);
+    api.createCard(data['card-name'], data['card-src'])
+      .then(data => {
+        section.addItem(getCard(data));
+      })
+      .catch(err => console.log(err));
+    
   }
 });
 popupWithCardAdd.setEventListeners();
@@ -70,13 +72,7 @@ popupWithCardAdd.setEventListeners();
 const popupWithImage = new PopupWithImage('.popup_place_card-image');
 popupWithImage.setEventListeners();
 
-const popupWithRemoveCard = new PopupWithRemoveCard({
-  popupSelector: '.popup_place_card-remove',
-  handleRemove: () => {
-    console.log('Remove Card!');
-    popupWithRemoveCard.close();
-  }
-});
+const popupWithRemoveCard = new PopupWithRemoveCard('.popup_place_card-remove');
 popupWithRemoveCard.setEventListeners();
 
 
@@ -94,9 +90,23 @@ function getCard(dataElement) {
     templateSelector: '.template-card',
     userId: userInfo.getUserId(),
     handleCardClick: (name, src) => popupWithImage.open(name, src),
-    handleCardRemove: (cardId) => {
+    handleCardRemove: (card) => {
       popupWithRemoveCard.open();
-      console.log(cardId);
+      popupWithRemoveCard.setActionSubmit(() => {
+        api.removeCard(card.id)
+          .then(data => {
+            card.remove();
+            popupWithRemoveCard.close();
+          })
+          .catch(err => console.log(err));  
+      });
+    },
+    handleCardLike: (card, method) => {
+      api.likeCard(method, card.id)
+        .then(data => {
+          card.updateCountLike(data);
+        })
+        .catch(err => console.log(err));
     }
   });
   return card.getElement();
@@ -130,14 +140,9 @@ avatar.addEventListener('click', () => {
   popupWithUpdateAvatar.open();
 });
 
-Promise.all([api.getCard(), api.getUserInfo()])
+Promise.all([api.getCards(), api.getUserInfo()])
   .then(([cards, userData]) => {
     userInfo.setUserInfo(userData);
-
-    cards.forEach(card => {
-      section.addItem(getCard(card));
-    });
-
-    console.log(userData);
-    
-  });
+    section.renderedCards(cards);
+  })
+  .catch(err => console.log(err));
