@@ -7,12 +7,12 @@ export default class Section{
 
     renderedCards(cards) {
         cards.forEach(card => {
-            const cardElement = this._renderer(card);
-            this.addItem(cardElement);
+            this.addItem(card);
         });
     }
 
-    addItem(element) {
-        this._container.prepend(element);
+    addItem(data) {
+        const card = this._renderer(data)
+        this._container.prepend(card);
     }
 }

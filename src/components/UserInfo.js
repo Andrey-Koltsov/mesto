@@ -6,18 +6,18 @@ export default class UserInfo {
         this._userAvatar = document.querySelector(avatarSelector);
     }
 
-    getUserInfo() {
+    getInfo() {
         return {
-            name: this._userNameElement.textContent,
-            job: this._userJobElement.textContent,
+            'profile-name': this._userNameElement.textContent,
+            'profile-job': this._userJobElement.textContent,
         }
     }
 
-    getUserId() {
+    getId() {
         return this._id;
     }
 
-    setUserInfo({name, about, avatar, _id}) {
+    setInfo({name, about, avatar, _id}) {
         this._userNameElement.textContent = name;
         this._userJobElement.textContent = about;
         this._userAvatar.src = avatar;
