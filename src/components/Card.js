@@ -39,8 +39,8 @@ export default class Card {
         }
     }
 
-    updateCountLike(data) {
-        this._likes = data.likes;
+    updateCountLike(likes) {
+        this._likes = likes;
         this._likeCountElement.textContent = this._likes.length;
         this._toggleBtnLike();
     }
@@ -63,7 +63,8 @@ export default class Card {
         if (this._ownerId === this._userId) {
             this._btnRemove.addEventListener('click', () => this._handleCardRemove(this));
         } else {
-            this._btnRemove.classList.add('card__remove_disabled');
+            this._btnRemove.remove();
+            this._btnRemove = null;
         }
     }
 

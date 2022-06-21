@@ -54,6 +54,15 @@ export default class FormValidator {
         this._btnSubmit.disabled = true;
     }
 
+    loadingButtonForm(bool) {
+        if (bool) {
+            this._btnSubmit.textContent = 'Сохранение...'
+        } else {
+            this._btnSubmit.textContent = 'Сохранить'
+        }
+        
+    }
+
     enableValidation() {
         this._setListenerInputs();
     }

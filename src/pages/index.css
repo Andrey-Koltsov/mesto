@@ -30,7 +30,6 @@
 @import url("../blocks/card/__like-btn/card__like-btn.css");
 @import url("../blocks/card/__like-btn/_active/card__like-btn_active.css");
 @import url("../blocks/card/__remove/card__remove.css");
-@import url("../blocks/card/__remove/_disabled/card__remove_disabled.css");
 
 @import url("../blocks/footer/footer.css");
 @import url("../blocks/footer/__copyright/footer__copyright.css");
@@ -50,4 +49,3 @@
 @import url("../blocks/popup/__btn-submit/_disabled/popup__btn-submit_disabled.css");
 @import url("../blocks/popup/__image/popup__image.css");
 @import url("../blocks/popup/__image-description/popup__image-description.css");
-

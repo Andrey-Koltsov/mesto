@@ -4,7 +4,7 @@ import UserInfo from "../components/UserInfo.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
-import PopupWithRemoveCard from "../components/PopupWithRemoveCard.js";
+import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 import Api from "../components/Api.js";
 import "./index.css";
 
@@ -31,13 +31,25 @@ const api = new Api({
 const userInfo = new UserInfo(profileSelectors);
 const section = new Section(getCard, listCardSelector);
 
+const formProfileValidate = new FormValidator(configValidate, popupProfileForm);
+const formCardValidate = new FormValidator(configValidate, popupCardForm);
+const formAvatarValidate = new FormValidator(configValidate, popupAvatarForm);
+formProfileValidate.enableValidation();
+formCardValidate.enableValidation();
+formAvatarValidate.enableValidation();
+
+
+
 
 const popupWithUpdateAvatar = new PopupWithForm({
   popupSelector: '.popup_place_avatar',
   submitForm: (data) => {
+    formAvatarValidate.loadingButtonForm(true);
     api.setUserAvatar(data['card-src'])
       .then(data => {
         userInfo.setUserInfo(data);
+        formAvatarValidate.loadingButtonForm(false);
+        popupWithUpdateAvatar.close();
       })
       .catch(err => console.log(err));
   }
@@ -47,9 +59,12 @@ popupWithUpdateAvatar.setEventListeners();
 const popupWithEditProfile = new PopupWithForm({
   popupSelector: '.popup_place_profile',
   submitForm: (data) => {
+    formProfileValidate.loadingButtonForm(true);
     api.setUserInfo(data)
       .then(data => {
         userInfo.setUserInfo(data);
+        formProfileValidate.loadingButtonForm(false);
+        popupWithEditProfile.close();
       })
       .catch(err => console.log(err));
   }
@@ -59,9 +74,12 @@ popupWithEditProfile.setEventListeners();
 const popupWithCardAdd = new PopupWithForm({
   popupSelector: '.popup_place_card-add',
   submitForm: (data) => {
+    formCardValidate.loadingButtonForm(true);
     api.createCard(data['card-name'], data['card-src'])
       .then(data => {
         section.addItem(getCard(data));
+        formCardValidate.loadingButtonForm(false);
+        popupWithCardAdd.close();
       })
       .catch(err => console.log(err));
     
@@ -72,16 +90,11 @@ popupWithCardAdd.setEventListeners();
 const popupWithImage = new PopupWithImage('.popup_place_card-image');
 popupWithImage.setEventListeners();
 
-const popupWithRemoveCard = new PopupWithRemoveCard('.popup_place_card-remove');
-popupWithRemoveCard.setEventListeners();
+const popupWithConfirmation = new PopupWithConfirmation('.popup_place_card-remove');
+popupWithConfirmation.setEventListeners();
 
 
-const formProfileValidate = new FormValidator(configValidate, popupProfileForm);
-const formCardValidate = new FormValidator(configValidate, popupCardForm);
-const formAvatarValidate = new FormValidator(configValidate, popupAvatarForm);
-formProfileValidate.enableValidation();
-formCardValidate.enableValidation();
-formAvatarValidate.enableValidation();
+
 
 
 function getCard(dataElement) {
@@ -91,12 +104,12 @@ function getCard(dataElement) {
     userId: userInfo.getUserId(),
     handleCardClick: (name, src) => popupWithImage.open(name, src),
     handleCardRemove: (card) => {
-      popupWithRemoveCard.open();
-      popupWithRemoveCard.setActionSubmit(() => {
+      popupWithConfirmation.open();
+      popupWithConfirmation.setActionSubmit(() => {
         api.removeCard(card.id)
           .then(data => {
             card.remove();
-            popupWithRemoveCard.close();
+            popupWithConfirmation.close();
           })
           .catch(err => console.log(err));  
       });
@@ -104,7 +117,7 @@ function getCard(dataElement) {
     handleCardLike: (card, method) => {
       api.likeCard(method, card.id)
         .then(data => {
-          card.updateCountLike(data);
+          card.updateCountLike(data.likes);
         })
         .catch(err => console.log(err));
     }
